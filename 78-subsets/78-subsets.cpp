@@ -2,17 +2,17 @@ class Solution {
 public:
         vector<vector<int>> ans;
     vector<vector<int>> subsets(vector<int>& nums) {
-        vector<int> subset;
-            helper(nums,0, subset);
-            return ans;
+        int n=nums.size();
+            int total_subsets= 1<<n; //pow(2,n)
+            for(int i=0;i<total_subsets;i++){
+                vector<int> subset;      //if n=3, i=6 means 110 ie bit 1,2 are set
+                                         // so index 1,2 of nums are included in subset
+                for(int j=0;j<n;j++){
+                        if((1<<j)&i) subset.push_back(nums[j]);
+                        // if jth index of nums ka eq bit set hai toh push in subset;
+                }
+                    ans.push_back(subset);
+            }
+        return ans;    
     }
-        void helper(vector<int>& nums, int idx, vector<int>& subset){
-                if(idx==nums.size()){ ans.push_back(subset);
-                                      return; }
-                
-                helper(nums,idx+1,subset); // not including ith index
-                subset.push_back(nums[idx]);
-                helper(nums,idx+1,subset);// including ith index
-                subset.pop_back();
-        }
 };
