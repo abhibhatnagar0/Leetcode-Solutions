@@ -19,16 +19,19 @@ public:
             while(n--){
                     fast=fast->next;
             }
-            if(fast==NULL) {
+            if(fast==NULL) { // means head delete krna hai 
                     dummy->next=dummy->next->next; // deleting head
+                    delete head;
                     return dummy->next;
             }
-            while(fast->next!=NULL){
-                  slow=slow->next;
+            while(fast->next!=NULL){ // slow and fast have constant separation on n-1 nodes
+                  slow=slow->next;   // so when fast points tail, slows next node is to be deleted
                    fast=fast->next;
             }
             // slow ka next is to be deleted
+            ListNode* del= slow->next;
             slow->next=slow->next->next;
+            delete del;
             return dummy->next;
     }
 };
