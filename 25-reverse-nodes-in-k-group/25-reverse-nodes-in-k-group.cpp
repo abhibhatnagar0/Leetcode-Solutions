@@ -12,27 +12,33 @@ class Solution {
 public:
     ListNode* reverseKGroup(ListNode* head, int k) {
         if(head==NULL || head->next==NULL|| k==1) return head;
-          // first k nodes ka kaam hum krenge, baaki recursion krega
-            //our work
-            ListNode* curr=head, *prev=NULL, *next,*tail=head;
-            //tail represents the tail of 1st k nodes
-            int i=k-1;
-            while(i--){ // k-1 jumps me kth node aayega
-                     tail=tail->next;
-                    if(tail==NULL) return head; // means size k tk nhi ja pa rha
-                                                // so return ll as it is  
+            // after reversing a grp of k nodes, start and end connections are to be made
+            ListNode* beforeStart, *afterTail;
+            ListNode* dummy= new ListNode(-1);
+            beforeStart=dummy;
+            dummy->next=head;
+            ListNode* curr=head, *prev=dummy, *next, *tail=head,*start;
+            int i=1;
+            while(tail!=NULL){
+                    if(i%k!=0){
+                            tail=tail->next;
+                    }
+                    else{  afterTail=tail->next;
+                           start=curr;
+                         //reverse here as tail is end of k nodes, curr is start
+                         while(prev!=tail){
+                                 next=curr->next;
+                                 curr->next=prev;
+                                 prev=curr;
+                                 curr=next;
+                         }
+                            beforeStart->next=tail;
+                            start->next=afterTail;  
+                            beforeStart=start;
+                            tail=afterTail; //=curr=next
+                    }
+                    i++;
             }
-            
-            while(tail!=prev){ // phle curr==NULL krte the but ab curr k+1 th node pe
-                               // aa jayega, not NULL pe
-                    next=curr->next;
-                    curr->next=prev;
-                    prev=curr;
-                    curr=next;
-            }
-            // now tail=prev =kth node
-              head->next=reverseKGroup(curr,k);
-            return prev;
-            
+        return dummy->next;    
     }
 };
