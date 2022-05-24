@@ -13,24 +13,43 @@ public:
     ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
             if(list1==NULL) return list2;
             if(list2==NULL) return list1;
-        ListNode* dummy= new ListNode(-1);
-        ListNode* tail=dummy; // tail ke aage l1,l2 ka smaller node append hoga
-            while(list1!=NULL && list2!=NULL){
-                    if(list1->val < list2->val){
-                            tail->next=list1;
-                            tail=tail->next;
-                            list1=list1->next;
+        ListNode* head =new ListNode();
+            ListNode* p1=list1, *p2=list2, *p3=head;
+            while(p1!=NULL && p2!=NULL){
+                    if(p1->val < p2->val){
+                            p3->val=p1->val;
+                            p1=p1->next;
                     }
                     else{
-                            tail->next=list2;
-                            tail=tail->next;
-                            list2=list2->next;        
+                            p3->val=p2->val;
+                            p2=p2->next;
+                    }
+                    p3->next= new ListNode();
+                    p3=p3->next;
+            }
+            if(p1==NULL && p2!=NULL){
+                    while(p2!=NULL){
+                            p3->val=p2->val;
+                            p2=p2->next;
+                            if(p2==NULL) {
+                                    p3->next=NULL;
+                                    return head; }
+                            p3->next= new ListNode();
+                            p3=p3->next;     
                     }
             }
-            //any one or both of l1 l2 will become 0
-            if(list1==NULL) tail->next=list2;
-            if(list2==NULL) tail->next=list1;
-            return dummy->next;
+             if(p2==NULL && p1!=NULL){
+                    while(p1!=NULL){
+                            p3->val=p1->val;
+                            p1=p1->next;
+                            if(p1==NULL) { 
+                                    p3->next=NULL;
+                                    return head; }
+                            p3->next= new ListNode();
+                            p3=p3->next;     
+                    }
+            }
+            return head;
             
     }
 };
