@@ -4,21 +4,23 @@ public:
     vector<vector<int>> subsetsWithDup(vector<int>& nums) {
         vector<int> subset;
             sort(nums.begin(),nums.end());
-            helper(nums,0, subset,false);
+            helper(nums,0, subset);
             return ans;
     }
-        void helper(vector<int>& nums, int idx, vector<int>& subset, bool incLastidx){
+        void helper(vector<int>& nums, int idx, vector<int>& subset){
                 if(idx==nums.size()){ ans.push_back(subset);
                                       return; }
                 
-                helper(nums,idx+1,subset,false); // not including ith index
-                if( idx!=0 && nums[idx]==nums[idx-1] && incLastidx==false){
-                        //phle duplicate ko include nhi kia toh ab  idx ko bhi nhi krna
-                        return;
-                }
                 subset.push_back(nums[idx]);
-                helper(nums,idx+1,subset,true);// including ith index
+                helper(nums,idx+1,subset);// including ith index
                 subset.pop_back();
+                
+                while( idx+1<nums.size() && nums[idx]==nums[idx+1]){
+                        idx++;
+                }
+                // 1,2,2,2,3
+                //when at idx=1,and we dont take it then uske aage wale 2s ko bhi nhi lena
+                helper(nums,idx+1,subset); // not including ith index   
         }
     
         
