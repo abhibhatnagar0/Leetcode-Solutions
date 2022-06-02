@@ -1,17 +1,17 @@
 class Solution {
 public:
-      
-        int helper(int i,int j,int m, int n,vector<vector<int>> &dp){
-               
-                if(i>=m || j>=n) return 0;
-                 if(i==m-1 && j==n-1) return 1;
-                
-                if(dp[i][j]!=-1) return dp[i][j];
-                else return dp[i][j]= helper(i+1,j,m,n,dp) + helper(i,j+1,m,n,dp);
-                
-        }
     int uniquePaths(int m, int n) {
-         vector<vector<int>>dp (m,vector<int>(n,-1)); 
-        return helper(0,0,m,n,dp);
+        //m-1 times down jana hai
+        //n-1 times right jana hai 
+       /* _ _ _ _ _ _ _ _ total m+n-2 spaces
+       to be filled with R and D
+       total ways to fill R = (m+n-2)C m-1 or (m+n-2)C n-1 */
+            int N = m+n-2;
+            int r = m-1;
+            double ans=1;
+            for(int p=1;p<=r;p++){
+                   ans=ans * (N-r+p)/p; 
+            }
+            return ans;
     }
 };
