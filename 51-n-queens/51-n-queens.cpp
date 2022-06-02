@@ -1,6 +1,9 @@
 class Solution {
 public:
         vector<vector<string>> ans;
+        
+      
+        
         //each idx of ans has 1 solution of queens position on board
     vector<vector<string>> solveNQueens(int n) {
         // make a n*n board, each row is a string
@@ -9,22 +12,34 @@ public:
                for (int i = 0; i < n; i++){
                   board[i] = s;
                  }
+        vector<int>cols(n,0);
+        vector<int>leftTop(2*n-1,0);
+        vector<int>rightTop(2*n-1,0);
         //take one row at a time and check
-            dfs(0,board,n);
+            dfs(0,board,n,cols,leftTop,rightTop);
             
             return ans;
     }
         
-        void dfs(int row,vector<string>&board, int n){
+        void dfs(int row,vector<string>&board, int n,vector<int>&cols,vector<int>&leftTop,vector<int>&rightTop){
                 if(row==n){
                         ans.push_back(board);
                         return;
                 }
            for(int col=0;col<n;col++){
-                   if(isValid(row,col,board,n)){
+                   if(issValid(row,col,board,n,cols,leftTop,rightTop)){
                            board[row][col]='Q';
-                           dfs(row+1,board,n);
+                           cols[col]=1;
+                           leftTop[(n-1)-(col-row)]=1;
+                           rightTop[row+col]=1;
+                           
+                           dfs(row+1,board,n,cols,leftTop,rightTop);
+                           
                            board[row][col]='.';
+                           cols[col]=0;
+                           leftTop[(n-1)-(col-row)]=0;
+                           rightTop[row+col]=0;
+                           
                    }
            }
         }
@@ -58,5 +73,12 @@ public:
                         tempCol++;
                 }
              return true;   
+        }
+        
+        bool issValid(int row,int col,vector<string>&board, int n,vector<int>&cols,vector<int>&leftTop,vector<int>&rightTop){
+                if(cols[col]==1) return false;
+                if(leftTop[(n-1)-(col-row)]==1) return false;
+                if(rightTop[row+col]==1) return false;
+                return true;
         }
 };
