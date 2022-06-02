@@ -9,11 +9,11 @@ public:
                 if(i==nums.size()) return;
                 if(nums[i]==target){
                            if(ans[0]==-1){
-                                  ans[0]=i;
-                                  ans[1]=i;
+                                  ans[0]=i;//first occurence
+                                  ans[1]=i;//last occurence till now
                            }
                         else{
-                                ans[1]=i;
+                                ans[1]=i;//last occurence till now
                         }
                 }
                 helper(nums,target,ans,i+1);
