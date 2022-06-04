@@ -1,26 +1,27 @@
 class Solution {
 public:
-    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
         vector<vector<int>> ans;
-        vector<int> currComb;
-        combination(candidates, target, currComb, 0, 0, ans);
-        return ans;
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+        vector<int>subset;
+            helper(candidates,target,subset,0,0);
+            return ans;
     }
-        
-      void combination(vector<int>& candidates, int target, vector<int> currComb, int currSum, int currIndex, vector<vector<int>>& ans){
-        if(currSum>target) return; //backtrack
-        if(currSum==target){
-            ans.push_back(currComb); //store the solution and backtrack
-            return;
+        void helper(vector<int>& candidates, int target,vector<int>& subset, int i, int currSum){
+                if(i==candidates.size()) return; //backtrack;
+                if(currSum==target) {
+                        ans.push_back(subset);
+                        return;
+                }
+                if(currSum>target) return;
+                
+                // taking ith idx element in subset
+                currSum+=candidates[i];
+                subset.push_back(candidates[i]);
+                helper(candidates,target,subset,i,currSum);//may think of taking i again
+                currSum-=candidates[i];
+                subset.pop_back();
+                
+                //not taking i,moving to next idx
+                helper(candidates,target,subset,i+1,currSum);
         }
-        
-        for(int i=currIndex; i<candidates.size(); i++){ //try all possible options for the next level
-            currComb.push_back(candidates[i]); //put 1 option into the combination
-            currSum+=candidates[i];
-            combination(candidates, target, currComb, currSum, i, ans); //try with this combination, whether it gives a solution or not.
-            currComb.pop_back(); //when this option backtrack to here, remove this and go on to the next option.
-            currSum-=candidates[i];
-        }
-        
-    }   
 };
