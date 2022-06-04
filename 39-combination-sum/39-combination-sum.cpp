@@ -8,13 +8,13 @@ public:
             //to make each subset sorted, phle candidate ko sort kro before passing
     }
         void helper(vector<int>& candidates, int target,vector<int>& subset, int i, int currSum){
-                if(i==candidates.size()) return; //backtrack;
-                if(currSum==target) {
+           if(currSum==target) {
                         ans.push_back(subset);
                         return;
                 }
                 if(currSum>target) return;
-                
+                if(i==candidates.size()) return; //backtrack;
+                 
                 // taking ith idx element in subset
                 currSum+=candidates[i];
                 subset.push_back(candidates[i]);
