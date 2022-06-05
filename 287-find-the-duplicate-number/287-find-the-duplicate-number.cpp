@@ -1,24 +1,15 @@
 class Solution {
 public:
     int findDuplicate(vector<int>& nums) {
-        //when array is immutable, we cannot negate elements to find duplicate
-            //using ll cycle method
-            //[5,3,4,2,5,1]
-            // 0,1,2,3,4,5
-            //5->1->3->2->4->5->1..........
-            int n=nums.size();
-            int slow=nums[0];
-            int fast=nums[0];
-            do{
-                 slow=nums[slow]; //taking single jump
-                 fast=nums[nums[fast]];// taking double jumps
-             }while(slow!=fast);
-               fast=nums[0];// initialising fast as first element again*
-                 while(slow!=fast)
-                    {
-                     slow=nums[slow]; //incementing till we again encounter the element
-                     fast=nums[fast];
-                        }
-             return fast;
-           }
-         };
+     int n=nums.size();
+            for(int i=0;i<n;i++){
+                    int x= abs(nums[i])-1;
+                    if(nums[x]<0) return abs(nums[i]);
+                    else nums[x]*=(-1);  
+            }
+            return -1;
+            //if all numbers lie in [1,n], number-1 gives a index corresponding to that no.
+            //from all numbers in array, go to their sorresponding idx's number, make it neg
+            //if we are sent to idx x by idx i such that nums[x] is neg,  nums[i] is dup
+    }
+};
