@@ -8,17 +8,18 @@ public:
                     int x=nums[i]-1;
                     if(nums[x]!=nums[i]) swap(nums[i--],nums[x]);
                     else{
-                            if(i==x) continue;
-                            else{
-                                    occursTwice=nums[i];
+                           continue;
                             }
                     }   
-            }
-            for(int i=0;i<n;i++){
-                    if(nums[i]!=i+1){
+            
+           for(int i=0; i<n; i++){
+                    if(nums[i]!=i+1){ 
                             missing=i+1;
+                            occursTwice=nums[i];
+                            break;
+                            //at idx i, i+1 hona chahiye tha, but nums[i] hai
                     }
             }
-            return {occursTwice,missing};
+            return {occursTwice,missing};      
     }
 };
