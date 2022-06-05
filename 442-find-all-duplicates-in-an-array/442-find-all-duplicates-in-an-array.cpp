@@ -10,11 +10,7 @@ public:
                            swap(nums[i--],nums[x]); //put no at its correct position
                    }
                    else{
-                           if(i==x) continue; //no at its correct position
-                           else{
-                                   //duplicate found
-                                   continue;
-                           }
+                          continue;
                    }
                    
            }
