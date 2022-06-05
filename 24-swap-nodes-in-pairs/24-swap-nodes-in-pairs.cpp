@@ -19,7 +19,7 @@ public:
             second->next=first;
             first->next=future;
             
-             head->next=swapPairs(future);
+             first->next=swapPairs(future);
             
            return second;
             
