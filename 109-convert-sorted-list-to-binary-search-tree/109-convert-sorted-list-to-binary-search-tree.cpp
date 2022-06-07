@@ -22,26 +22,23 @@
 class Solution {
 public:
     TreeNode* sortedListToBST(ListNode* head) {
-         if(head==NULL) return NULL;
-        vector<int>v;
-        ListNode* curr = head;
-        while(curr!=NULL)
-        {
-            v.push_back(curr->val);
-            curr=curr->next;
+         if (head == NULL)
+            return NULL;
+        if (head->next == NULL)
+            return new TreeNode(head->val);
+        ListNode *fast = head->next, *slow = head;
+        while (fast->next != NULL && fast->next->next != NULL) {
+            slow = slow->next;
+            fast = fast->next->next;
         }
-            int n=v.size();
-        return makeBst(v,0,n-1); //make bst from values of idxs 0 to n-1 (inclusive)
-    }
-        
-         TreeNode* makeBst(vector<int>v,int l,int r)
-        {
-        if(l>r) return NULL;
-        int mid = (l+r)/2;
-        TreeNode* root = new TreeNode(v[mid]);
-        root->left = makeBst(v,l,mid-1);
-        root->right = makeBst(v,mid+1,r);
-        
+            //slow is mid se phle wala node ir (slow->next=mid)
+            //for 5 nodes, slow is 2md node
+            //for 4 nodes, slow is 2md node (mid is right part)
+        TreeNode* root = new TreeNode(slow->next->val);
+            cout<<root->val;
+        root->right = sortedListToBST(slow->next->next);
+        slow->next = NULL; //brking into 2 separate ll before passing left part
+        root->left = sortedListToBST(head);
         return root;
-        }
+    }
 };
