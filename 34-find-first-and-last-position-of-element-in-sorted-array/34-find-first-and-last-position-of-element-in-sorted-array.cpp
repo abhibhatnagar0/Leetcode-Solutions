@@ -1,21 +1,39 @@
 class Solution {
 public:
     vector<int> searchRange(vector<int>& nums, int target) {
-        vector<int> ans(2,-1);
-            helper(nums,target,ans,0);
-            return ans;
+        int first=-1,last=-1;
+            int n=nums.size();
+            
+            if(n==0) return {-1,-1};
+            
+            int s=0,e=n-1;
+            while(s<=e){
+                    int mid=s+(e-s)/2;
+                    if(nums[mid]==target){
+                            first=mid;
+                            e=mid-1;
+                    }
+                    else if(nums[mid]>target){
+                            e=mid-1;       
+                    }
+                    else s=mid+1;
+            }
+            
+            s=0,e=n-1;
+            
+             while(s<=e){
+                    int mid=s+(e-s)/2;
+                    if(nums[mid]==target){
+                            last=mid;
+                            s=mid+1;
+                    }
+                    else if(nums[mid]>target){
+                            e=mid-1;       
+                    }
+                    else s=mid+1;
+            }
+            
+            return {first,last};
+            
     }
-        void helper(vector<int>& nums, int target,vector<int> & ans,int i){
-                if(i==nums.size()) return;
-                if(nums[i]==target){
-                           if(ans[0]==-1){
-                                  ans[0]=i;//first occurence
-                                  ans[1]=i;//last occurence till now
-                           }
-                        else{
-                                ans[1]=i;//last occurence till now
-                        }
-                }
-                helper(nums,target,ans,i+1);
-        }
 };
