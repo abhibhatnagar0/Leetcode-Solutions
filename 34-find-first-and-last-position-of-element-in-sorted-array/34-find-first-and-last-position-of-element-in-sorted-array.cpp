@@ -10,8 +10,8 @@ public:
             while(s<=e){
                     int mid=s+(e-s)/2;
                     if(nums[mid]==target){
-                            first=mid;
-                            e=mid-1;
+                            first=mid; //temporarily storing ans, not sure if its the 1st occurce
+                            e=mid-1; //to check for target in left
                     }
                     else if(nums[mid]>target){
                             e=mid-1;       
