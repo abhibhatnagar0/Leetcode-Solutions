@@ -9,7 +9,7 @@ public:
     }
         
         int helper(vector<vector<int>>& triangle,int n, int i,int j,vector<vector<int>>& dp){
-              if(i==n || j==triangle[i].size()) return 0;
+              if(i==n) return 0;
                 
                  if(dp[i][j]!=INT_MAX) return dp[i][j];
                 
