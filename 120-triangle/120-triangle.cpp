@@ -1,19 +1,16 @@
 class Solution {
 public:
-        
     int minimumTotal(vector<vector<int>>& triangle) {
         int n= triangle.size(); //no of levels
-            int maxj= triangle[n-1].size();
-            vector<vector<int>> dp(n, vector<int>(maxj,INT_MAX));
-            return helper(triangle,n,0,0,dp);
+            //bottom up approach
+            //changed original vector
+            //space o(1)
+           // time o(n2)
+            for(int i=n-2;i>=0;i--){
+                 for(int j=0;j<triangle[i].size();j++){
+                  triangle[i][j]= min(triangle[i+1][j],triangle[i+1][j+1]) + triangle[i][j];
+                            }
+            }
+            return triangle[0][0];
     }
-        
-        int helper(vector<vector<int>>& triangle,int n, int i,int j,vector<vector<int>>& dp){
-              if(i==n) return 0;
-                
-                 if(dp[i][j]!=INT_MAX) return dp[i][j];
-                
-                return dp[i][j]= min(helper(triangle,n,i+1,j,dp), helper(triangle,n,i+1,j+1,dp)) + triangle[i][j];
-              
-                }
 };
