@@ -9,11 +9,14 @@ public:
             /*if n+m=10, left and right sides have 5-5 ele in total
               if n+m =9, left will have 4, right will have 5 ele in total
               */
-            int s=0, e=n; //as s se e cuts can be at n+1 spaces
+            int s=0, e=n; //as s se e, cuts can be at n+1 spaces
             while(s<=e){
                  int cut1= s+ (e-s)/2; // cut1=3 means 3 ele of nums1 in left side
                  int cut2= (n+m)/2 - cut1; 
-                    
+                 /* as total elements on left right are (n+m)/2
+                 and on right side can be (n+m)/2 + 1 or (n+m)/2 
+                     so, n+m+1 no of cuts can be made on merged array
+                 */
                  if(cut1!=0) l1=nums1[cut1-1];
                  else l1= INT_MIN;
                     
