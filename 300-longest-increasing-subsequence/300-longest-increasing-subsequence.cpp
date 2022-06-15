@@ -1,28 +1,22 @@
 class Solution {
 public:
-        
     int lengthOfLIS(vector<int>& nums) {
-            int n= nums.size();
-            vector<vector<int>> dp(n, vector<int>(n+1,-1));
-           
-           return lis_helper(nums,0,-1,dp);
+       
+        vector<int> temp;
+        temp.push_back(nums[0]);
+        for(int i=1;i<nums.size();i++){
+            if(nums[i]>temp.back()){
+                temp.push_back(nums[i]);
+            }
+            else{
+                int ind = lower_bound(temp.begin(),temp.end(),nums[i]) - temp.begin();
+                temp[ind] = nums[i];
+            }
+        }
+            for(auto x: temp) cout<<x<<" ";
+        return temp.size();
+            //temp may not always be same as lis, though length will be same
+            // 2,3,5,1,9,4 will give 1,3,4,9
+            //actual lis is 2,3,5,9
     }
-           int lis_helper(vector<int>& nums, int i, int prev, vector<vector<int>>& dp){
-                if(i==nums.size()) return 0;  
-                
-                if(dp[i][prev+1]!=-1) return dp[i][prev+1];
-                   
-                int op1=0;
-                if(prev==-1 || nums[i]>nums[prev]){
-                        //including i in lis
-                         op1= 1 + lis_helper(nums,i+1,i,dp);
-                }
-                
-                 int op2= lis_helper(nums,i+1,prev,dp); //excluding i, so prev phle wala hi 
-                  
-                        return dp[i][prev+1]= max(op1,op2);
-                }
-        //changing variable passes...state of dp is 2
-        // i lies from 0 to n-1
-        //prev lies from -1 ro n-1... so prev+1 passed in dp array
 };
