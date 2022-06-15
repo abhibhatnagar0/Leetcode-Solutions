@@ -1,21 +1,27 @@
 class Solution {
 public:
-       
+        int dp[2510][2511];
     int lengthOfLIS(vector<int>& nums) {
-            int n= nums.size();
-             vector<int> dp(n,1);
-            dp[0]=1;
-            int longest_length=1;
-            for(int i=1; i<n;i++){
-                    for(int j=0; j<i; j++){
-                            if(nums[j]<nums[i]){
-                                    dp[i]=max(dp[i],dp[j]+1);
-                        // dp[i] gives ith idx pe end krne wala max len ka inc subq
-                            }
-                    }
-                   longest_length=max(longest_length, dp[i]);
-            }
-         return longest_length;   
-        
+           memset(dp,-1,sizeof(dp));
+            
+           return lis_helper(nums,0,-1);
     }
+           int lis_helper(vector<int>& nums, int i, int prev){
+                if(i==nums.size()) return 0;  
+                
+                if(dp[i][prev+1]!=-1) return dp[i][prev+1];
+                   
+                int op1=0;
+                if(prev==-1 || nums[i]>nums[prev]){
+                        //including i in lis
+                         op1= 1 + lis_helper(nums,i+1,i);
+                }
+                
+                 int op2= lis_helper(nums,i+1,prev); //excluding i, so prev phle wala hi 
+                   
+                        return dp[i][prev+1]= max(op1,op2);
+                }
+        //changing variable passes...state of dp is 2
+        // i lies from 0 to n-1
+        //prev lies from -1 ro n-1... so prev+1 passed in dp array
 };
