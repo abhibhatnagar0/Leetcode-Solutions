@@ -40,9 +40,14 @@ public:
                         return "ok";
                 }
                 else{ //both left and right "ok"
-                   //both childern be like- we got covered from our children
+                   //both childern be like- we are either NULL or got covered
+                   //from our children
                    //tu tera khud dekh lawde 
                        return "want"; 
                 }
         }
+  //all leaf nodes will "want" (both NULL child)
+  //level above leaf nodes will "provide" (child wants)
+  //root will first call its sub trees by dfs, if both "ok"..root will have camera
+        
 };
