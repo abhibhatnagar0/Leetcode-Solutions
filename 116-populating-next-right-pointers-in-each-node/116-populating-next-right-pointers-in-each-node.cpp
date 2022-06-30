@@ -19,22 +19,24 @@ public:
 class Solution {
 public:
     Node* connect(Node* root) {
-        if(root==NULL) return root;
-        queue<Node*> q;
-        q.push(root);
-        while(!q.empty()){
-            int n= q.size(); //n is size of this level
-            while(n>0){
-                Node* curr= q.front();
-                q.pop();
-                if(n==1) curr->next=NULL; //this is last ele of this lvl
-                //so iske next me NULL
-                else curr->next= q.front();
-                
-                if(curr->left) q.push(curr->left);
-                if(curr->right) q.push(curr->right);
-                n--;
+         if(root==NULL) return root;
+        Node* par=root;
+        while(par!=NULL){
+            Node *dummy= new Node(-1); //dummy always before par ka left child
+            Node* temp= dummy; //temp will traverse children level below parents
+            while(par!=NULL){ //for each level
+                if(par->left!=NULL){
+                    temp->next=par->left;
+                    temp=temp->next;
+                }
+                if(par->right!=NULL){
+                    temp->next=par->right;
+                    temp=temp->next;
+                }
+                par=par->next; //parents connection done before
             }
+            //kisi level me par has become null
+            par=dummy->next; //for next level
         }
         return root;
     }
