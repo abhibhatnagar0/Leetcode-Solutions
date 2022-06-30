@@ -18,14 +18,11 @@ public:
         
         while(!q.empty()){
             int n= q.size();
-            bool flag=false; //for new level
+            
             for(int i=0;i<n;i++){
                 TreeNode* curr= q.front();
                 q.pop();
-                if(flag==false){ //bs ek baar execute hoga har level ki starting me
-                    ans=curr->val;
-                    flag=true;
-                }
+                if(i==0) ans=curr->val;
                 if(curr->left) q.push(curr->left);
                 if(curr->right) q.push(curr->right);    
             }
