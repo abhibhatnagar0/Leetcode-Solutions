@@ -14,8 +14,8 @@ public:
     int sum=0;
     int sumNumbers(TreeNode* root) {
         if(root==NULL) return 0;
-        
-        dfs(root,0);
+        int temp=0;
+        dfs(root,temp);
         return sum;
     }
     void dfs(TreeNode* root, int temp){
