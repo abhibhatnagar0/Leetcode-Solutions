@@ -36,7 +36,7 @@ public:
         long long sum = 0;
         for(int i = size-1; i>=0; i--)  {
             sum += path[i];
-            if(sum>INT_MAX) return;
+            if(sum>INT_MAX) return; //so that sum never overflows int range
             if(sum == targetSum)
                 count++;
         }
