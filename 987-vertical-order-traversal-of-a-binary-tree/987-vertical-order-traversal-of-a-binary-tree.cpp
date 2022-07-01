@@ -43,13 +43,8 @@ public:
         vector<pair<int,int>> v;
         for(auto it=m.begin();it!=m.end();it++){
             v=it->second;
-            sort(v.begin(),v.end(),[](pair<int,int> a,pair<int,int> b)
-            {
-               if(a.second==b.second)
-                   return a.first<b.first;
-               else 
-                   return a.second<b.second;
-            });
+            sort(v.begin(),v.end(),cmp);
+
             vector<int> v1;
             for(auto i:v){
                 v1.push_back(i.first);
@@ -59,5 +54,11 @@ public:
             v1.clear();  
         }
         return ans;
+    }
+    bool static cmp(pair<int,int> a,pair<int,int> b){
+        if(a.second==b.second)
+                   return a.first<b.first;
+               else 
+                   return a.second<b.second;
     }
 };
