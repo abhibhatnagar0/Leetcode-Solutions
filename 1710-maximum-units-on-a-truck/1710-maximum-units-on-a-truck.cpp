@@ -1,32 +1,25 @@
 class Solution {
 public:
     int maximumUnits(vector<vector<int>>& boxTypes, int truckSize) {
-        priority_queue<vector<int>> pq; //max heap
-        for(auto v: boxTypes){
-            pq.push({v[1],v[0]}); //sort on basis of decreasing units/box
-        }
-        //pq.top()[0] gives max units/box
-        //pq.top()[1] gives corresponding no. of boxes
+         sort(boxTypes.begin(),boxTypes.end(),cmp);// sort on the basis of units
+        int ans=0;
         
-        int boxesTaken=0; //so far
-        int maxUnits=0;
-        
-        while(!pq.empty() && boxesTaken<truckSize ){
-            //can I take all boxes of pq.top() ?
-            if(boxesTaken+ pq.top()[1] <=truckSize){
-                boxesTaken+= pq.top()[1];
-                maxUnits+= pq.top()[1] * pq.top()[0];
-                pq.pop();
+        for(auto box: boxTypes){
+            if(truckSize>box[0]){
+                ans+=box[0]*box[1];
+                truckSize-=box[0]; //truckSize is the remaining no of boxes to be put on truck
             }
-            else{
-                int reqBoxes= truckSize-boxesTaken;
-                boxesTaken+=reqBoxes;
-                maxUnits+= reqBoxes * pq.top()[0];
+            else{//not all boxes of this type are needed
+                ans+=truckSize*box[1];
+                truckSize=0;
+                break;
             }
         }
-        //if pq.empty() has become true
-        //or if boxesTaken==truckSize
-        return maxUnits;
-        
+        return ans;
     }
+    bool static cmp(vector<int> a, vector<int> b){
+        if(a[1]==b[1]) a[0]>b[0];
+        return a[1]>b[1];
+    }
+    
 };
