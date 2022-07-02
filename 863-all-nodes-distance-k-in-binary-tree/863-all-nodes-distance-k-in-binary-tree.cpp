@@ -9,6 +9,12 @@
  */
 class Solution {
 public:
+    /* BFS can be used to find nodes at a specific distance.
+    Since we have to go to top as well...maintain parent map and visited array
+    call bfs on target
+    in 1st iteration, all nodes at dist=1 will be pushed to queue
+    in kth iteration, push all node->val in ans and break loop
+    */
     vector<int> distanceK(TreeNode* root, TreeNode* target, int k) {
         vector<int> ans;
         if(root==NULL) return ans;
@@ -50,22 +56,10 @@ public:
     }
     void findParent(TreeNode* root, unordered_map<TreeNode*,TreeNode*> &mp){
         if(root==NULL) return;
-        queue<TreeNode*> q;
-		q.push(root);
-		while (!q.empty()) {
-			int sz = q.size();
-			while (sz--) {
-				TreeNode* node = q.front();
-				q.pop();
-				if (node->left) {
-					mp[node->left] = node;
-					q.push(node->left);
-				}
-				if (node->right) {
-					mp[node->right] = node;
-					q.push(node->right);
-				}
-			}
-        }
+        if(root->left!=NULL) mp[root->left]=root;
+        if(root->right!=NULL) mp[root->right]=root;
+        
+        findParent(root->left,mp);
+        findParent(root->right,mp);
     }
 };
