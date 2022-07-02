@@ -27,6 +27,9 @@ public:
         
         int minOfchildren= min(left.second,right.second);
         int maxOfchildren= max(left.first,right.first);
+        //roots val can lie anywhere
+        //its abs diff with a child node can be maximum if we take extreme values
+        //of children
         int diff= max(abs(root->val-minOfchildren), abs(root->val-maxOfchildren));
         maxdiff= max(diff,maxdiff);
         
