@@ -1,9 +1,9 @@
-const int INF = 1E9+10;
+
 class Solution {
 public:
     int dijkstra(int source, int n, vector <pair<int, int>> adj[]) {
         vector <int> vis(n+1, 0);
-        vector <int> dist(n+1, INF); // vertex is the first element and weight is the second
+        vector <int> dist(n+1, INT_MAX); // vertex is the first element and weight is the second
 
         set <pair<int, int>> st; // wt is the first element and vertex is the second
 
@@ -28,7 +28,7 @@ public:
         }
         int ans = 0;
         for(int i = 1; i <= n; ++i) {
-            if(dist[i] == INF) return -1;
+            if(dist[i] == INT_MAX) return -1;
             ans = max(ans, dist[i]);
         }
         return ans;
