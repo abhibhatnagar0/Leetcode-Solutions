@@ -1,41 +1,40 @@
 class Solution {
 public:
     vector<int> gardenNoAdj(int n, vector<vector<int>>& paths) {
-        vector<int> adj[n+1];
-        for(int i=0;i<paths.size();i++){
-            adj[paths[i][0]].push_back(paths[i][1]);
-            adj[paths[i][1]].push_back(paths[i][0]);
-        }
-        vector<int> color(n+1, 0);
-        
-        for(int i=1;i<=n;i++){ //dfs on all unvisted nodes
-            if(color[i]==0){
-                dfs(i, color, adj);
-            //dfs(node) first finds feasible color of the node
-            //then calls dfs on its unvisted neighbours
-            }
-        }
-        color.erase(color.begin()); //color[0] will be 0 always
-        return color;               //as nodes are from 1 to n
+        vector<vector<int>> adj(n+1);
+    for(auto p: paths)
+    {
+        int u = p[0];
+        int v = p[1];
+        adj[u].push_back(v);
+        adj[v].push_back(u);
     }
-    void dfs(int v, vector<int> &color, vector<int> adj[]){
-        for(int i=1;i<=4;i++){ //i represents color 1,2,3,4
-            bool possible=true;
-      //possible tells if its possible for node v to have color i      
-            for(auto x: adj[v]){
-                if(color[x]==i){
-                    possible =false;
-                    break;
+    
+    vector<int> color(n+1,0);
+    for(int i =1;i<=n;i++) //bfs on all unvisited nodes
+    {
+        if(color[i]==0)
+        {
+            queue<int> q;
+            q.push(i);
+            color[i]=1; //by default,giving 1 color to starting node of a connection
+            while(!q.empty())
+            {
+                int node = q.front();
+                q.pop();
+                for(auto it: adj[node])
+                {
+                    if(color[it]==0 || color[it]==color[node])
+                    {
+                        color[it]=color[node]+1;
+                        q.push(it);
+                    }
+                    if(color[it]>4) color[it] = color[it]%4;
                 }
             }
-            if(possible==true){
-                color[v]=i;
-                break;
-            }
         }
-        for(auto x: adj[v]){
-            if(color[x]==0)
-               dfs(x, color, adj);
-        }
+    }
+    color.erase(color.begin());
+    return color;
     }
 };
