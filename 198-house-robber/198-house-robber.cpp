@@ -2,13 +2,16 @@ class Solution {
 public:
     int rob(vector<int>& nums) {
         int n= nums.size();
-        vector<int> dp(n+1,0);
+        
         //dp[i] means max value gained if i houses are there to rob
-        dp[0]=0;
-        dp[1]=nums[0];
-        for(int i=2;i<=n;i++){
-            dp[i]= max(dp[i-2]+nums[i-1], dp[i-1]);
+        int prevbytwo =0; //total 0 house dp[0]
+        int prevbyone =nums[0]; //total 1 house dp[1]
+        for(int i=1;i<n;i++){
+            int curr = max(prevbytwo +nums[i], prevbyone);//dp[2]
+            
+            prevbytwo= prevbyone;
+            prevbyone= curr;
         }
-        return dp[n];
+        return prevbyone;//=curr
     }
 };
