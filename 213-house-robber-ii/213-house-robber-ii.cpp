@@ -3,24 +3,20 @@ public:
     int rob(vector<int>& nums) {
         int n= nums.size();
         if(n==1) return nums[0];
-        if(n==2) return max(nums[0],nums[1]);
-        if(n==3) return max(nums[0],max(nums[1],nums[2]));
-        vector<int>dp(n+1,0);
-        //choosing idx=0, so wont be able to choose idx=1 and idx=n-1
-        dp[0]=0;
-        dp[1]= nums[0];
-        dp[2]= nums[0];
-        for(int i=2;i<n-1;i++){ 
-            dp[i+1]=max(dp[i-1]+nums[i], dp[i]);
-        }
-        //can choose idx=n-1 and idx=1...but cannot choose idx=0
-         vector<int>dp2(n+1,0);
-        dp2[2]= nums[1];
-        dp2[3]= max(nums[1],nums[2]);
-        for(int i=3;i<n;i++){
-            dp2[i+1]=max(dp2[i-1]+nums[i], dp2[i]);
-        }
         
-        return max(dp[n-1],dp2[n]);
+        vector<int>dp1(n+1,-1);
+        vector<int>dp2(n+1,-1);
+    
+        return max(helper(0,n-2,nums,dp1),helper(1,n-1,nums,dp2));
+    }
+    int helper(int sidx, int eidx,vector<int>& nums,vector<int>& dp){
+        if(sidx > eidx) return 0;
+            
+         if(dp[sidx]!=-1) return dp[sidx];
+        
+         int op1 = helper(sidx+2,eidx,nums,dp)+ nums[sidx];
+         int op2 = helper(sidx+1,eidx,nums,dp);
+        return  dp[sidx]= max(op1,op2);
+        
     }
 };
