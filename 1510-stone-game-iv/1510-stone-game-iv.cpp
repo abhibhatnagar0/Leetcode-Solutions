@@ -1,26 +1,21 @@
 class Solution {
-public:  
-    
-    bool winnerSquareGame(int n) 
-    {
-        vector<int>dp(n+1, -1);
-        return solve(n, dp);
+public:
+    bool winnerSquareGame(int n) {
+        vector<bool> dp(n+1,false);
+        if(n==1) return true;
+        if(n==2) return false;
+        //dp[i] tells if current player can win or not with n stones in pile
+        dp[0]= false;
+        dp[1]=true;
+        dp[2]=false;
+        for(int i=3;i<=n;i++){
+            for(int j=1;j*j<=i;j++){
+                if(dp[i-j*j]==false){
+                    dp[i]=true;
+                    break;
+                }
+            }
+        }
+        return dp[n];
     }
-   //solve(n) will tell if current player(whose chance is there)
-   //with n stones kept on pile can win or not 
-    
-    bool solve(int n, vector<int>&dp) 
-    { 
-        //will return Alice with n stones can win or not
-        if(n==0) return false; //empty pile
-        if(dp[n]!=-1) return dp[n];
-        for(int i=1; i*i<=n; i++)
-            if(solve(n-i*i, dp)==false) return dp[n]=true;
-        return dp[n]=false;
-    }    
-          //if Alice takes i*i stones
-            //Bob sees n-i*i stones in pile
-            //if for any i, bob looses, he will loose as Alice too 
-            //will play optimally(will win if she can win)
-  
 };
