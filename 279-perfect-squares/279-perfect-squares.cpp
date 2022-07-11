@@ -8,11 +8,11 @@ public:
         if(n==0 || n==1 || n==2 || n==3) return n;
         if(dp[n]!=0)return dp[n];
         
-        int ans=n-1;
+        int ans=n;
         for(int i=1;i*i<=n;i++){
-            ans= min(helper(n-i*i,dp),ans);
+            ans= min(helper(n-i*i,dp)+1,ans);
         }
-        return dp[n]= ans+1;
+        return dp[n]= ans;
         
     }
 };
