@@ -14,7 +14,11 @@ public:
                     dp[i][j] = max(case1, case2); // maximum of these 2 cases
                 }
             }
-        return dp[0][n-1];
+        cout<<dp[0][n-1]; //max sum for Alice
+        int sum=0;
+        for(auto x: piles) sum+=x;
+        return dp[0][n-1] > sum-dp[0][n-1];
+       
     }
     //if Alex picks i from (i,j) 
     //other player can pick from (i+1,j)..he will chose the max he can get
