@@ -19,5 +19,6 @@ public:
         cool[i%2]=max(cool[(i-1)%2],sell[(i-1)%2]);
       }
         return max(cool[(n-1)%2],sell[(n-1)%2]);
+        //if we sell on n-1th day, then no need for cooldown as we wont buy after that
     }
 };
