@@ -3,19 +3,28 @@ public:
     int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {
         int m=obstacleGrid.size();
         int n=obstacleGrid[0].size();
-         vector<vector<int>>dp (m,vector<int>(n,-1)); 
-        return helper(0,0,m,n,dp,obstacleGrid);
-    }
-     int helper(int i,int j,int m, int n,vector<vector<int>> &dp, vector<vector<int>>& obstacleGrid){
-               
-                if(i>=m || j>=n || obstacleGrid[i][j]==1) return 0;
-                 if(i==m-1 && j==n-1 && obstacleGrid[i][j]==0) return 1;
-                
-                if(dp[i][j]!=-1) return dp[i][j];
-                dp[i][j]= helper(i+1,j,m,n,dp,obstacleGrid) + helper(i,j+1,m,n,dp,obstacleGrid);
-         
-               return dp[i][j];
-                
+        if(obstacleGrid[0][0]==1 || obstacleGrid[m-1][n-1]==1) return 0;
+         vector<vector<int>>dp (m,vector<int>(n,0)); 
+        
+      //filling 0th row
+        for(int j = 0; j < n; j++){
+            if(obstacleGrid[0][j] == 1) break;
+            dp[0][j] = 1;
         }
-   
+        
+        //filling 0th column
+         for(int i = 1; i < m; i++){
+            if(obstacleGrid[i][0] == 1) break;
+            dp[i][0] = 1;
+        }
+        
+        //filling rest of the dp array
+        for(int i = 1; i < m; i++){
+            for(int j = 1; j < n; j++){
+                if(obstacleGrid[i][j] == 1) continue;
+                else dp[i][j] = dp[i-1][j] + dp[i][j-1];
+            }
+        }
+        return dp[m-1][n-1];
+   }   
 };
