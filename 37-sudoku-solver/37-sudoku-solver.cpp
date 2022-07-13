@@ -1,7 +1,7 @@
 class Solution {
 public:
     void solveSudoku(vector<vector<char>>& board) {
-         solve(board);
+         solve(board,0);
     }
     // helper function to check is char ch can be placed at (r, c)
     bool isValid(vector<vector<char>> &board, int r, int c, char ch) {
@@ -19,8 +19,8 @@ public:
         return true;
     }
     
-    bool solve(vector<vector<char>> &board) {
-        for(int i = 0; i < 9; i++) {
+    bool solve(vector<vector<char>> &board, int idx) {
+        for(int i = idx; i < 9; i++) {
             for(int j = 0; j < 9; j++) {
                 // find the empty position
                 if(board[i][j] == '.') {
@@ -31,7 +31,7 @@ public:
                             board[i][j] = c;
                             // recursive call
                             // if valid number is placed no need to backtrack: fix the value at that position and move ahead
-                            if(solve(board) == true)
+                            if(solve(board, i) == true)
                                 return true;
                             else
                             // unplace the value for further iterations: backtracking
