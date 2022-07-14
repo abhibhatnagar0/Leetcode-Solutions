@@ -16,18 +16,18 @@ public:
     //finding if a subset is possible with given sum
      bool subsetsum(vector<int> &nums, int sum, int n)
     {
-        bool dp[n + 1][sum + 1];
-        for (int i = 0; i < n + 1; ++i) dp[i][0] = 1;
+        bool dp[2][sum + 1];
+        for (int i = 0; i < 2; ++i) dp[i][0] = 1;
         for (int j = 1; j < sum + 1; ++j) dp[0][j] = 0;
 
         for (int i = 1; i < n + 1; ++i){
             for (int j = 1; j < sum + 1; ++j){
                 if (nums[i - 1] <= j)
-                    dp[i][j] = dp[i - 1][j] || dp[i - 1][j - nums[i - 1]];
+                    dp[i%2][j] = dp[(i - 1)%2][j] || dp[(i - 1)%2][j - nums[i - 1]];
                 else
-                    dp[i][j] = dp[i - 1][j];
+                    dp[i%2][j] = dp[(i - 1)%2][j];
             }
         }
-        return dp[n][sum];
+        return dp[n%2][sum];
      }
 };
