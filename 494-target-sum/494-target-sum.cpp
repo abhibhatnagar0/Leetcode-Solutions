@@ -23,25 +23,25 @@ public:
      //count no of subsets of nums with given sum   
     int count_subsets(vector<int>& nums, long long sum, int x){
         int n= nums.size();
-        vector<vector<int>> dp(n+1,vector<int>(sum +1,0));
+        vector<vector<int>> dp(2,vector<int>(sum +1,0));
     //dp[i][j] gives no of subsets with i elements of nums giving sum j
         //at dp[i][j] we are taking decision for nums[i-1]
         //if it wants to contribute its sum or not
         for(int i=0; i<=n;i++)
-            dp[i][0]=1;
+            dp[i%2][0]=1;
         for(int j=1; j<=sum; j++)
             dp[0][j]=0;  
             
         for(int i=1;i<=n;i++){
             for(int j=1; j<=sum; j++){
                 if(nums[i-1]>j || nums[i-1]==0) //0s will be considered later
-                        dp[i][j]= dp[i-1][j]; //not including nums[i-1]
+                        dp[i%2][j]= dp[(i-1)%2][j]; //not including nums[i-1]
                 else
-                        dp[i][j]= dp[i-1][j] + dp[i-1][j-nums[i-1]] ;
+                        dp[i%2][j]= dp[(i-1)%2][j] + dp[(i-1)%2][j-nums[i-1]] ;
            //sum of count of subsets by inc and exc nums[i-1]
             }
         }
-      return dp[n][sum]*(pow(2,x));
+      return dp[n%2][sum]*(pow(2,x));
         //each 0 has 2 options to go in subset or not
     }
 };
