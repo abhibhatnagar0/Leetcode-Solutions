@@ -1,20 +1,15 @@
 class Solution {
 public:
     int integerBreak(int n) {
-        vector<int>dp(n+1,-1);
-        return helper(n,dp);
-    }
-     int helper(int n,vector<int>&dp) {
-        if(n==0 || n==1) return 1;
-        if(dp[n]!=-1) return dp[n];
+    vector < int > dp(n + 1, INT_MIN);
+      dp[0] = dp[1] = 1;
         
-        int maxi=0;
-        
-        for(int i=1;i<n;i++){
-            int p= max(helper(n-i,dp)*i,i*(n-i));
-            maxi=max(maxi,p);
+      for (int i = 2; i <= n; i++){
+        for (int j =1;j<=i-1;j++){
+          dp[i] = max(dp[i], j * max(i - j, dp[i - j]));
         }
-        return dp[n]=maxi;
+      }
+      return dp[n];
     }
     // f(5)= max (1*f(4), 2*f(3), 3*f(2), 4*f(1))
     // we have to brk 5 into atleast 2 integers
