@@ -1,31 +1,31 @@
 class Solution {
 public:
-        vector<vector<int>> ans;
-    vector<vector<int>> combine(int n, int k) {
-         vector<int> subSet;
+    vector<vector<int>> ans;
     
-    help(1, n, k, subSet);
-    return ans;
-    }
+    void helper(int num, int k,vector<int>&current,int n)
+    {// will include num and call recursion to give remaining k-1 numbers from num+1 to n
+     //initially num=1, n=4 k=2
+            //total combinations = 4c2=6
+            //all iterations will give 1,2  1,3  1,4
+            //then num=2, all iterations give 2,3  2,4 
+            //num=3........  3,4
+        if(current.size()==k)    // base case
+        {
+            ans.push_back(current);
+            return;
+        }
         
-    void help(int i, int n, int k, vector<int> &subSet)
-{
-    if (k == 0) //k stores remaining no of ele
-    {
-        ans.push_back(subSet);
-        return;
+        for(int i=num;i<n+1;i++) 
+        {
+            current.push_back(i);  //consider the current element i
+            helper(i+1,k,current,n); // generate combinations
+            current.pop_back(); //proceed to next element
+        }
     }
-    //har i pe jakr decision lenge ki usko lena h ki nhi
-    if (k > n - i + 1)// if at i, and i-1 me se kisi ko nhi lia ho,then k=n-(i-1)
-        return; //but if remaining ele zaada h, ie aage ke sbko lekr bhi k nhi aa layenge toh just return
-    if (i > n)
-        return; //as i can go from 1 to n
-            
-            // take the ith ele
-    subSet.push_back(i);
-    help(i + 1, n, k - 1, subSet); //i ko subset me le lia, ab k-1 aur chahiye
-    subSet.pop_back();
-            // skip the ith ele
-    help(i + 1, n, k, subSet);  //i+1 ke aage se k chahiye
-}
+    
+    vector<vector<int>> combine(int n, int k) {
+        vector<int>current;
+        helper(1,k,current,n);
+        return ans; //return answer
+    }
 };
