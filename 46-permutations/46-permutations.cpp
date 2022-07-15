@@ -13,8 +13,11 @@ public:
                         allperm.push_back(nums); //return current status of nums after swappings
                         return;
                 }
-            for(int i=pos;i<nums.size();i++){ //iterate all numbers from pos to n-1 index and fix them
-                                              // one by one at pos index
+            //only elements after pos can be swapped with it 
+            //we will place all elements one by one at 0 index(pos) and ask recursion
+            //to do remaining task of putting elements after pos+1 
+            for(int i=pos;i<nums.size();i++){ 
+                
                     swap(nums[i],nums[pos]);  // nums[i] ko fix krna h at pos index
                     helper(nums,pos+1);       
                     swap(nums[i],nums[pos]);  //backtracking step after recursive call
