@@ -9,15 +9,17 @@ if(nums.size()==1) return {nums};  //for n numbers, n! permutations are possible
     }
         void helper(vector<int>& nums, int pos){
                 //pos se phle wale indexes are all fixed, so dont look at them.
-                if(pos==nums.size()){ //when nth index is to be fixed or sb fix ho chuke hai
-                        allperm.push_back(nums); //return current status of nums after swappings
+                if(pos==nums.size()){ 
+                        allperm.push_back(nums); 
                         return;
                 }
-                unordered_set<int> st;//for removing duplicates at a particular pos
-            for(int i=pos;i<nums.size();i++){ //iterate all numbers from pos to n-1 index and fix them
-                                              // one by one at pos index
+            //no two nums[i] with same value can come at pos
+            //making a unique set for each pos storing all nums[i] swapped with nums[pos]
+                unordered_set<int> st;
+            for(int i=pos;i<nums.size();i++){ 
                     if(st.find(nums[i])!=st.end()) continue; //nums[i] ko already swap krva chuke h nums[pos] ke saath
-                    st.insert(nums[i]); //coming for the 1st time
+                
+                    st.insert(nums[i]); 
                     swap(nums[i],nums[pos]);  // nums[i] ko fix krna h at pos index
                     helper(nums,pos+1);       
                     swap(nums[i],nums[pos]);  //backtracking step after recursive call
