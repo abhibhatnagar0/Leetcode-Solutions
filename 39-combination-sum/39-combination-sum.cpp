@@ -3,11 +3,12 @@ public:
         vector<vector<int>> ans;
     vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
         vector<int>subset;
-            helper(candidates,target,subset,0,0);
+           int currSum=0;
+            helper(candidates,target,subset,0,currSum);
             return ans;
             //to make each subset sorted, phle candidate ko sort kro before passing
     }
-        void helper(vector<int>& candidates, int target,vector<int>& subset, int i, int currSum){
+        void helper(vector<int>& candidates, int target,vector<int>& subset, int i, int &currSum){
            if(currSum==target) {
                         ans.push_back(subset);
                         return;
