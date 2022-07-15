@@ -1,35 +1,29 @@
 class Solution {
 public:
-        vector<vector<int>> ans;
-    vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
-          vector<int>subset;
-            sort(candidates.begin(),candidates.end());
-            //jisse duplicates saath me aa jaye
-            //when a ele will not come, then all its duplicates too wont come, skip kr denge unko
-            //when ele comes, simpily i++
-            helper(candidates,target,subset,0,0);
-            return ans;
-            
-    }
-    
-        void helper(vector<int>& candidates, int target,vector<int>& subset, int i, int currSum){
-                if(currSum==target) {
-                        ans.push_back(subset);
-                        return;
-                }
-                if(currSum>target) return;
-                
-                if(i==candidates.size()) return; //backtrack;
-                
-                // taking ith idx element in subset
-                currSum+=candidates[i];
-                subset.push_back(candidates[i]);
-                helper(candidates,target,subset,i+1,currSum);//cant take i again
-                subset.pop_back();
-                currSum-=candidates[i];
-                
-                //not taking i,moving to next idx which is different
-                while(i+1<candidates.size() && candidates[i]==candidates[i+1]) i++;
-                helper(candidates,target,subset,i+1,currSum);
+    void helper(int index, int target, vector<int>&candidates, vector<vector<int>>&ans, vector<int>&ds){
+        //base case
+        if(target == 0){
+            ans.push_back(ds);
+            return;
         }
+        if(target<0) return;
+        
+        for(int i = index; i< candidates.size(); i++){
+            if(candidates[i] > target) break; // no point of it to add it to the ans if the  candidate at ith element exceeds the target no picking up hence break 
+            if(i  > index && candidates[i] == candidates[i-1])
+                continue;
+                //to avoid picking up the same elements and thus avoiding duplicates (no picking of element)
+            ds.push_back(candidates[i]);
+            helper(i+1, target- candidates[i], candidates, ans, ds); //call for next  index element
+            ds.pop_back();
+        }
+        
+    }
+    vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
+        sort(candidates.begin(), candidates.end());//sort the given candidates vector 
+        vector<vector<int>>ans;
+        vector<int>ds;
+        helper(0, target, candidates, ans, ds);
+        return ans;
+    }
 };
