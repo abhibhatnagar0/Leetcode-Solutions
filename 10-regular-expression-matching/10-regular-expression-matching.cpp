@@ -1,43 +1,33 @@
 class Solution {
 public:
-    // p= "abde*w." can be "abd"+ "n time e" +"w"+ "any char"
-    //n can be 0,1,2,3.....
+   bool solve(string &s, string &p, int n, int m, vector<vector<int>>&dp){
+        if(n == 0 && m == 0) return true;
+        if(m==0 && n!=0) return false;
+        if(n==0 && m!=0 && p[m-1] == '*'){
+            for(int i = m-1; i>=0; i-=2){
+                if(p[i] != '*') return false;
+            }
+            return true;
+        }
+        if(n==0 && m!=0) return false;
+        if(dp[n][m] != -1) return dp[n][m];
+        if(s[n-1] == p[m-1] || p[m-1] == '.'){
+            return dp[n][m] = solve(s,p,n-1,m-1,dp);
+        }
+        else if(p[m-1] == '*'){
+            if(p[m-2] == s[n-1] || p[m-2] == '.'){
+                return dp[n][m] = solve(s,p,n-1,m,dp) || solve(s,p,n,m-2,dp);
+            }
+            else{
+                return dp[n][m] = solve(s,p,n,m-2,dp);
+            }
+        }
+        return dp[n][m] = false;
+    }
     bool isMatch(string s, string p) {
         int n = s.length();
         int m = p.length();
-        vector<vector<bool>>dp(m+1,vector<bool>(n+1,false));
-        
-        //dp[i][j] tells if i,j length of p,s are taken
-        //s and p can be made equal or not
-        dp[0][0] = true;
-        for(int i=1; i<m+1; i++){ //if s.size()=0 
-            if(p[i-1] == '*'){
-                dp[i][0] = dp[i-2][0]; // i-2 ke baad p can have "c*"=""
-            }
-        }
-        for(int j=1; j<n+1; j++){ //1st row
-            dp[0][j] = false;
-        }
-        for(int i=1; i<m+1; i++){
-            for(int j=1; j<n+1; j++){
-                if(p[i-1] == s[j-1] || p[i-1] == '.'){
-                    dp[i][j] = dp[i-1][j-1];
-                }
-                else if(p[i-1] == '*'){ //p[i-2] is repeated char(0 to any no of times)
-                    if(p[i-2] == s[j-1] || p[i-2] == '.'){
-                        dp[i][j] = dp[i][j-1] || dp[i-2][j];
-                        // (removing last char of each,removing c*)
-                    }
-                    else{
-                        dp[i][j] = dp[i-2][j]; 
-                        //so only option is removing c*
-                    }
-                }
-                else{
-                    dp[i][j] = false;
-                }
-            }
-        }
-        return dp[m][n];
+        vector<vector<int>>dp(n+1,vector<int>(m+1,-1));
+        return solve(s,p,n,m,dp);
     }
 };
