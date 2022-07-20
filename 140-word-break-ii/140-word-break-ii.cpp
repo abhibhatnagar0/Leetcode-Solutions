@@ -1,27 +1,28 @@
 class Solution {
 public:
-    vector<string> ans;
+   map <string, vector<string>> dp;
     
     vector<string> wordBreak(string s, vector<string>& wordDict) {
-        string temp = ""; //for storing temp ans of string s
-        
-        unordered_set<string> dict;
-        for(auto w: wordDict) dict.insert(w);
-        
-        solve(s, dict, temp);
-        return ans;
+        set <string> word_dict(wordDict.begin(), wordDict.end());
+        return helper(s, word_dict);
     }
-    void solve(string s, unordered_set<string>& dict, string temp ){
-        if(s == ""){
-            ans.push_back(temp);
-        }else{
-            int n = s.size();
-            for(int i = 1; i<= n; ++i ){
-                string t = s.substr(0, i);
-                if(dict.find(t) != dict.end()){
-                    solve(s.substr(i), dict, temp + (temp == ""? t : (" " + t)));
+    
+    vector<string> helper(string s, set<string>& word_dict) {
+    //when s.size()==0 condn addressed after
+        vector<string> res;
+        if (dp.find(s) != dp.end()) return dp[s];
+        
+        for (int i = 1; i <= s.size(); i++) {
+            if (word_dict.find(s.substr(0, i)) != word_dict.end()) {
+                if (s.substr(i).length() == 0) {  //here
+                    res.push_back(s.substr(0, i));
                 }
-            }   
+                else {
+                    vector<string> subList = helper(s.substr(i), word_dict);
+                    for (auto sub : subList) res.push_back(s.substr(0, i) + " " + sub);
+                }
+            }
         }
+        return dp[s] = res;
     }
 };
