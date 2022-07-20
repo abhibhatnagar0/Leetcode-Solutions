@@ -16,14 +16,9 @@ public:
                         else if(j==0) // s2 is empty
                                 dp[i][j]= s1[i-1]==s3[i+j-1]? dp[i-1][j]:false;
                         else
-                        { if(s1[i-1]==s3[i+j-1])
-                                dp[i][j]= dp[i-1][j];
-                          if(!dp[i][j] && s2[j-1]==s3[i+j-1])
-                                  dp[i][j]=dp[i][j-1];
-                                
-                        } 
+                            dp[i][j]= (s1[i-1] == s3[i+j-1] && dp[i-1][j]) || (s2[j-1] == s3[i+j-1] && dp[i][j-1]);      
                 }
-                    }
-            return dp[m][n];
-                    }
+            }
+        return dp[m][n];
+    }
 };
