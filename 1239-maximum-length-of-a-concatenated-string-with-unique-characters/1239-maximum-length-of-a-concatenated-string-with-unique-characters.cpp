@@ -1,31 +1,34 @@
 class Solution {
 public:
-    int maxlen=0;
     int maxLength(vector<string>& arr) {
-        int n= arr.size();
-        string s="";
-        unordered_set<char>st;
-        helper(arr,s,0,st);
-        return maxlen;
-    }
-    void helper(vector<string>& arr, string s, int i,unordered_set<char>&st){
-        unordered_set<char>st2;
-        if(i==arr.size()){
-            int n=s.size();
-           maxlen= max(n,maxlen); 
-           return;
-        }
-        helper(arr,s,i+1,st);
+         int n = arr.size();
         
-        for(auto ch: arr[i]){
-            if(st.find(ch)!=st.end() || st2.find(ch)!=st2.end()) return;
-            st2.insert(ch);
-        }
-        for(auto ch: st2){
-            st.insert(ch);
-        }
+        int ans = 0;
         
-        helper(arr,s+arr[i],i+1,st);
-        for(auto ch: arr[i]) st.erase(ch);
+        for(int i = 0; i<(1<<n); i++){
+            vector<bool>vis(26,0);
+            string s = "";
+            bool stop = 0;
+            for(int j = 0;j<n; j++){
+                if(i&(1<<j)){
+                    for(auto c:arr[j]){
+                        if(vis[c-'a']){
+                            stop = 1;
+                            break;
+                        }
+                        vis[c-'a'] = 1;
+                        
+                    }
+                    if(stop)continue;
+                    s+=arr[j];
+                    ans = max(ans, (int)s.size());
+                }
+            }
+        }
+        return ans;
     }
 };
+/**
+Time = O((2^n) * (26*n)), n = arr.size();
+Sapce = O(26)
+**/
