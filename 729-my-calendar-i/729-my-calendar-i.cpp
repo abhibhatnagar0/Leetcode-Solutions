@@ -1,30 +1,37 @@
 class MyCalendar {
 public:
-        set<pair<int,int>>v;// stores all non-overlapping intervals {end time, start time}
+        set<pair<int,int>> s;
     MyCalendar() {
         
     }
     
     bool book(int start, int end) {
-        auto it = v.upper_bound({start,end}); //finds an end e' from set such that e' > start
-        //this interval {start,end} only valid if it ends before starting of s'
-         //                   s'              e'
-         // start      end 
-     if(it!=v.end() && it->second<end)
-     {     //                   s'              e'
-           //     start             end 
-         return false;
-     }
-    v.insert({end,start});
-    return true;
+        if(s.size()==0){ 
+            s.insert({start,end});
+            return true;
+        }
+        
+        auto it=s.upper_bound({start,end});
+        //{start,end} ko it se phle insert krne ka try krenge
+        
+        if(it==s.begin()){ //just compare interval with it
+            if(end<=(*it).first){
+                s.insert({start,end});
+                return true;
+            }
+            else return false;  
+        }
+        if(it!=s.end()){ // compare interval with it ka start and it-- ka end
+            if((*it).first<end) return false;
+        }
+        it--;
+        if(start>=(*it).second){
+            s.insert({start,end});
+            return true;
+        }
+        else return false;
     }
-    //just compare with upper bound wala it
-    //as it-- wala kbhi overlap nhi kr payega {start,end} ko
-    //agar it-- wala operlap kb rha hota ...toh it-- ka first would
-    //be greater than end, ie it-- wala hi upper bound hota
-    
 };
-
 
 /**
  * Your MyCalendar object will be instantiated and called as such:
