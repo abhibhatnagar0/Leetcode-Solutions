@@ -18,7 +18,13 @@ public:
     v.insert({end,start});
     return true;
     }
+    //just compare with upper bound wala it
+    //as it-- wala kbhi overlap nhi kr payega {start,end} ko
+    //agar it-- wala operlap kb rha hota ...toh it-- ka first would
+    //be greater than end, ie it-- wala hi upper bound hota
+    
 };
+
 
 /**
  * Your MyCalendar object will be instantiated and called as such:
