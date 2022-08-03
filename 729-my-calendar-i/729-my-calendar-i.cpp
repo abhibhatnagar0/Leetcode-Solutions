@@ -1,27 +1,22 @@
 class MyCalendar {
 public:
-    map<int,int>mp; //{time,sum till that time}
-    //sum=0
-    //start time will make sum++, end will make sum--
-    //sum shld always be 0 or 1 for non overlapping intervals
-    //if sum=2, means 2 events have started before ending
+        set<pair<int,int>>v;// stores all non-overlapping intervals {end time, start time}
     MyCalendar() {
         
     }
     
     bool book(int start, int end) {
-        mp[start]++;
-        mp[end]--;
-        int sum=0;
-        for(auto p: mp){
-           sum+= p.second;
-            if(sum>1){
-                mp[start]--;
-                mp[end]++;
-                return false;  
-            }  
-        }
-        return true;
+        auto it = v.upper_bound({start,end}); //finds an end e' from set such that e' > start
+        //this interval {start,end} only valid if it ends before starting of s'
+         //                   s'              e'
+         // start      end 
+     if(it!=v.end() && it->second<end)
+     {     //                   s'              e'
+           //     start             end 
+         return false;
+     }
+    v.insert({end,start});
+    return true;
     }
 };
 
