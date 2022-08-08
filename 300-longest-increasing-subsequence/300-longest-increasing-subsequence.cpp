@@ -1,22 +1,21 @@
 class Solution {
 public:
-    int lengthOfLIS(vector<int>& nums) {
        
-        vector<int> temp;
-        temp.push_back(nums[0]);
-        for(int i=1;i<nums.size();i++){
-            if(nums[i]>temp.back()){
-                temp.push_back(nums[i]);
+    int lengthOfLIS(vector<int>& nums) {
+            int n= nums.size();
+             vector<int> dp(n,1);
+            dp[0]=1;
+            int longest_length=1;
+            for(int i=1; i<n;i++){
+                    for(int j=0; j<i; j++){
+                            if(nums[j]<nums[i]){
+                                    dp[i]=max(dp[i],dp[j]+1);
+                        // dp[i] gives ith idx pe end krne wala max len ka inc subq
+                            }
+                    }
+                   longest_length=max(longest_length, dp[i]);
             }
-            else{
-                int ind = lower_bound(temp.begin(),temp.end(),nums[i]) - temp.begin();
-                temp[ind] = nums[i];
-            }
-        }
-            for(auto x: temp) cout<<x<<" ";
-        return temp.size();
-            //temp may not always be same as lis, though length will be same
-            // 2,3,5,1,9,4 will give 1,3,4,9
-            //actual lis is 2,3,5,9
+         return longest_length;   
+        
     }
 };
