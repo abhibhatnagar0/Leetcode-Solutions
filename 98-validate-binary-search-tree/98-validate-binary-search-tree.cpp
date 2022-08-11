@@ -11,19 +11,22 @@
  */
 class Solution {
 public:
-    vector<int> in;
     bool isValidBST(TreeNode* root) {
-        inorder(root);
-        for(int i=0;i<in.size()-1;i++){
-            if(in[i]>=in[i+1]) return false;
-        }
-        return true;
+       return isBST(root,LONG_MIN,LONG_MAX); 
     }
-    void inorder(TreeNode* root){
-        if(root==NULL) return;
-        inorder(root->left);
-        in.push_back(root->val);
-        inorder(root->right);
+    //isBST checks if root lies in range (min,max)
+    //root->left lies in (min,root->val)
+    //root->right lies in (root->val,max)
+    //returns true if it is a BST
+     bool isBST(TreeNode*root,long min,long max){
+      if(root==NULL) return true;
+         
+    if(root->val>min && root->val<max)
+    {
+     bool left = isBST(root->left,min, root->val);
+     bool right = isBST(root->right,root->val,max);
+       return left && right;
     }
-    
+    return false;
+    }
 };
