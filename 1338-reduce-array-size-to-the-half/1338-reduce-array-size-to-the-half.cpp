@@ -1,0 +1,22 @@
+class Solution {
+public:
+    int minSetSize(vector<int>& arr) {
+    int n=arr.size();
+    unordered_map<int,int> mp;    //to store the frequency
+    priority_queue<int> pq;       //max heap
+    
+    for(auto x:arr) mp[x]++;    //updating frequency of each element
+    
+    for(auto p:mp) pq.push(p.second);  //pushing all the frequencies into max heap
+
+    int ele=0, setCount=0;
+    while(!pq.empty()){    
+        ele+=pq.top();     //ele will sum up the frequencies respectively
+        pq.pop();          //if ele >= n/2, just return setCount
+        setCount++;
+        
+        if(ele>=n/2) return setCount;
+      }
+    return 0;
+    }
+};
