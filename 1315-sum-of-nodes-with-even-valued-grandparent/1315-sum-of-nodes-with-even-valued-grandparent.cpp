@@ -21,8 +21,7 @@ public:
         if(grandparent!=NULL && grandparent->val %2 ==0){
             sum+=node->val;
         }
-        TreeNode* newparent=parent;
-        if(node->left) dfs(node->left,node,newparent,sum);
-        if(node->right) dfs(node->right,node,newparent,sum);
+        if(node->left) dfs(node->left,node,parent,sum);
+        if(node->right) dfs(node->right,node,parent,sum);
     }
 };
