@@ -7,12 +7,9 @@ public:
         // else return false;
         
         if(n<1) return false;
-        return floor(logn(n,4))==ceil(logn(n,4));
-        // floor(x) : rounds downs the nearest integer.
-        //  ceil(x) : rounds up the nearest integer.
+       if((n & (n - 1)) == 0 && (n - 1) % 3 == 0) return true;
         
+        return false;
     }
-    double logn(int n,int r){
-        return log(n)/log(r);
-    }
+    
 };
