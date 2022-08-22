@@ -13,38 +13,30 @@ class Solution {
 public:
     TreeNode* subtreeWithAllDeepest(TreeNode* root) {
         if(root==NULL) return root;
-        vector<TreeNode*> nodes; //stores all deepest nodes
-        int mlevel=0;//level of deepest nodes
-        DeepestLeaves(root,nodes,0,mlevel);
-        return lca(root,nodes);
-    }
-    void DeepestLeaves(TreeNode* root,vector<TreeNode*>&nodes,int clevel,int &mlevel ){
-        if(root->left==NULL && root->right==NULL){ //a leaf node
-            if(nodes.size()==0) {
-                nodes.push_back(root);
-                mlevel=clevel;
+        TreeNode*p=NULL, *q=NULL;
+        //p,q are extreme nodes of deepest level in tree
+        queue<TreeNode*> qu;
+        qu.push(root);
+        while(!qu.empty()){
+            int n= qu.size();
+            for(int i=0;i<n;i++){
+                TreeNode* node= qu.front();
+                qu.pop();
+                if(i==0) p= node;
+                if(i==n-1) q= node;
+                if(node->left) qu.push(node->left);
+                if(node->right) qu.push(node->right);
             }
-            else{
-                if(clevel>mlevel){
-                    nodes.erase(nodes.begin(),nodes.end());
-                    mlevel=clevel;
-                    nodes.push_back(root);
-                }
-                else if(clevel==mlevel) {
-                    nodes.push_back(root); }
-            }
-            return;
         }
-        if(root->left) DeepestLeaves(root->left,nodes,clevel+1,mlevel);
-        if(root->right) DeepestLeaves(root->right,nodes,clevel+1,mlevel);
+        return lca(root,p,q);
     }
-    TreeNode* lca(TreeNode* root,vector<TreeNode*> nodes){
-        if(root==NULL) return root;
-        for(auto it: nodes){
-            if(root==it) return root;
-        }
-        TreeNode* left=lca(root->left,nodes);
-        TreeNode* right=lca(root->right,nodes);
+   
+    TreeNode* lca(TreeNode* root,TreeNode* p, TreeNode* q){
+        if(root==NULL || root==p || root==q) return root;
+        if(p==q) return p; //only one deepest node
+        
+        TreeNode* left=lca(root->left,p,q);
+        TreeNode* right=lca(root->right,p,q);
         if(right==NULL) return left;
         else if(left==NULL) return right;
         else return root;
