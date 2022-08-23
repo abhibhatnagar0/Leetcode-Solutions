@@ -17,9 +17,13 @@ public:
         ListNode* l1= head, *l2=mid->next;
         mid->next=NULL;
         l2= reverse(l2);
-        return compare(l1,l2); 
+        bool flag= compare(l1,l2);
+        l2= reverse(l2);
+        mid->next=l2;
+        return flag;
     }
     ListNode* reverse(ListNode* head){
+       if(head==NULL || head->next==NULL) return head;
         ListNode* prev=NULL,*curr=head,*temp;
         while(curr){
             temp= curr->next;
