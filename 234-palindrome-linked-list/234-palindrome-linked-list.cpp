@@ -10,39 +10,39 @@
  */
 class Solution {
 public:
-        ListNode* reverse(ListNode* head){
-                if(head==NULL || head->next==NULL) return head;
-                ListNode* curr=head, *prev=NULL, *next;
-                while(curr!=NULL){
-                        next=curr->next;
-                        curr->next=prev;
-                        prev=curr;
-                        curr=next;
-                }
-                return prev;
-        }
     bool isPalindrome(ListNode* head) {
-        if(head==NULL) return NULL;
-         if(head->next==NULL) return true;
-            // for even length of ll, middle node se reverse nikalenge
-            // for odd length of ll, middle->next se reverse nikalenge
-            ListNode* slow= head, *fast=head;
-            while(fast->next!=NULL && fast->next->next!=NULL){
-                    slow=slow->next;
-                    fast=fast->next->next;
-            }
-           //fast NULL hota h for even length, when slow is middle node
-           //fast->next NULL hota h for odd length, when slow is middle node
-            //here slow is node earlier to middle node (for attachment purpose)
-            slow->next=reverse(slow->next);
-            ListNode* start=head, *middle=slow->next;
-            //keep comparing nodes from start and middle
-            while(middle!=NULL){
-                    if(start->val != middle->val) return false;
-                    start=start->next;
-                    middle=middle->next;
-            }
-            return true;
-            
+        if(head==NULL) return false;
+        if(head->next==NULL) return true;
+        ListNode* mid= middle(head);
+        ListNode* l1= head, *l2=mid->next;
+        mid->next=NULL;
+        l2= reverse(l2);
+        return compare(l1,l2); 
+    }
+    ListNode* reverse(ListNode* head){
+        ListNode* prev=NULL,*curr=head,*temp;
+        while(curr){
+            temp= curr->next;
+            curr->next=prev;
+            prev=curr;
+            curr=temp;
+        }
+        return prev;
+    }
+    bool compare(ListNode* l1, ListNode* l2){
+        while(l1 && l2){
+          if(l1->val !=l2->val) return false;
+            l1=l1->next;
+            l2=l2->next;
+         }
+        return true;
+    }
+    ListNode* middle(ListNode* head){
+        ListNode* slow=head, *fast=head;
+        while(fast->next!=NULL && fast->next->next!=NULL){
+            slow=slow->next;
+            fast=fast->next->next;
+        }
+        return slow;
     }
 };
