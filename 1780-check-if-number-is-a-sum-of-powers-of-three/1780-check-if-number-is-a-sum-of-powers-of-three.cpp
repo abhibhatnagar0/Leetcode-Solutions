@@ -1,22 +1,15 @@
 class Solution {
 public:
     bool checkPowersOfThree(int n) {
-        int x = 1;
-        stack<int> st;
-        
-        while(x <= n){
-            st.push(x);
-            x *= 3;
-        }
-        //if n=30, we will push 1,3,9,27 in stack
-        
-        int sum = 0;
-        while(st.size()>0){
-            if(sum + st.top() <= n){
-                sum += st.top();
+        //n can be upto 1e7
+        //3^15 is greater than n
+        for(int i=14;i>=0;i--){
+            int powof3= pow(3,i);
+            if(n-powof3>=0){
+                n-=powof3;
             }
-            st.pop();
+            if(n==0) return true;
         }
-        return sum == n;
+        return false;
     }
 };
