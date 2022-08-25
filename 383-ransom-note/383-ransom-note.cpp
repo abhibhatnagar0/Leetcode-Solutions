@@ -5,9 +5,11 @@ public:
         for(auto c: magazine) mp[c]++;
         
         for(auto c: ransomNote){
-            if(mp.find(c)==mp.end()) return false;
+            // if(mp.find(c)==mp.end()) return false;
+            // mp[c]--;
+            // if(mp[c]==0) mp.erase(c);
             mp[c]--;
-            if(mp[c]==0) mp.erase(c);
+            if(mp[c]<0) return false;
         }
         return true;
     }
