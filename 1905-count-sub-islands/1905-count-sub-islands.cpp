@@ -19,7 +19,7 @@ public:
     void dfs(vector<vector<int>>& grid1, vector<vector<int>>& grid2, int i, int j,int m, int n, bool &isSubisland){
         if(i<0 || i>=m || j<0 ||j>=n) return;
         if(grid2[i][j]==0) return;
-        //if(isSubisland==false) return;
+        //if(isSubisland==false) return; 1,1 walo ko visited to krna hai hi
         if(grid2[i][j]==1 && grid1[i][j]==0){
             isSubisland=false;
             return;
